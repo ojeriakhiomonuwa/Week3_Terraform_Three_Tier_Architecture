@@ -9,7 +9,7 @@
 .terraform/*
 *.hcl
 *.lock*
-../.terraform/*
+.terraform/*
 terraform.*
 *.tfvars*
 

@@ -1,5 +1,5 @@
 variable hosted_zone_name{
-    default = "savvytek.online"
+    default = "savytech.online"
 }
 
 variable cloudfront_hosted_zone_id {}
