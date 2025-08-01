@@ -1,0 +1,41 @@
+name: "Terraform Deploy"
+
+on:
+  # On push to main branch
+    branches:
+      - main
+  # Manual trigger
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: us-east-1 # Change to your desired AWS region
+      # Terraform version and path to your Terraform files
+      TERRAFORM_VER: 1.12.0 # Same as your Terraform config
+      TERRAFORM_PATH: ./App # this will be path to Terraform files
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VER }}
+
+      - name: Terraform Init
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform apply -auto-approve
