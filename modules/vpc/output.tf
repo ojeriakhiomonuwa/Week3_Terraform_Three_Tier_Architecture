@@ -1,5 +1,5 @@
 output "region" {
-  value = var.aws_region
+  value = var.region
 }
 
 output "project_name" {
