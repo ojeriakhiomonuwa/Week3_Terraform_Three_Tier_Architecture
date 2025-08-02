@@ -1,29 +1,32 @@
-name: continuous-integration pipeline for nodejs App
+name: Terraform Pipeline
+description: CI/CD pipeline for Terraform deployments
 
 on:
   push:
     branches:
       - main
-  # pull_request:
-  #   branches:
-  #     - dev
   workflow_dispatch:
+
+# Prevent concurrent runs
+concurrency:
+  group: terraform-deployment
+  cancel-in-progress: false
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Prevent endless runs
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: us-east-1 # Change to your desired AWS region
-      # Terraform version and path to your Terraform files
-      TERRAFORM_VER: 1.12.0 # Same as your Terraform config
-      TERRAFORM_PATH: ./App # this will be path to Terraform files
+      AWS_REGION: us-east-1
+      TERRAFORM_VER: 1.12.0
+      TERRAFORM_PATH: ./App
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -34,10 +37,35 @@ jobs:
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform init
 
+      - name: Create Variables File
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: |
+          cat > terraform.tfvars <<EOF
+          additional_domain_name = "${{ env.ADDITIONAL_DOMAIN_NAME || '' }}"
+          EOF
+          
+          # Add any other variables here
+          certificate_domain_name = "${{ env.certificate_domain_name || 'default-value' }}"
+
+          db_username = "${{ secrets.DB_USERNAME || 'default-password' }}"
+
+          db_password = "${{ secrets.DB_PASSWORD || 'default-password' }}"
+
+      - name: Terraform Validate
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform validate
+
       - name: Terraform Plan
         working-directory: ${{ env.TERRAFORM_PATH }}
-        run: terraform plan
+        run: |
+          terraform plan \
+            -input=false \
+            -out=tfplan
 
       - name: Terraform Apply
         working-directory: ${{ env.TERRAFORM_PATH }}
-        run: terraform apply -auto-approve
+        run: |
+          terraform apply \
+            -input=false \
+            -auto-approve \
+            tfplan
