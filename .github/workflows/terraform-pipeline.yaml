@@ -61,7 +61,7 @@ jobs:
           terraform plan \
             -input=false \
             -out=tfplan \
-            -lock=true \
+            -lock=false \
             -var-file=terraform.tfvars
 
       - name: Terraform Apply
