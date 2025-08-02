@@ -60,7 +60,6 @@ jobs:
         run: |
           terraform plan \
             -var-file=terraform.tfvars \
-            -var="aws_region=${{ env.AWS_REGION }}" \
             -input=false \
             -out=tfplan \
             -lock=false \
@@ -71,7 +70,6 @@ jobs:
         run: |
           terraform apply \
             -var-file=terraform.tfvars \
-            -var="aws_region=${{ env.AWS_REGION }}" \
             -input=false \
             -auto-approve \
             -lock=false \
