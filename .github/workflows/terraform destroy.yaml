@@ -33,6 +33,25 @@ jobs:
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform init
 
+      - name: Create Terraform Variables File
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: |
+          cat > terraform.tfvars <<EOF
+          region                  = "${{ env.AWS_REGION }}"
+          project_name            = "three-tier-app"
+          vpc_cidr                = "192.168.0.0/16"
+          pub_sub_1a_cidr         = "192.168.0.0/19"
+          pub_sub_2b_cidr         = "192.168.32.0/19"
+          pri_sub_3a_cidr         = "192.168.64.0/19"
+          pri_sub_4b_cidr         = "192.168.96.0/19"
+          pri_sub_5a_cidr         = "192.168.128.0/19"
+          pri_sub_6b_cidr         = "192.168.160.0/19"
+          db_username             = "${{ secrets.DB_USERNAME }}"
+          db_password             = "${{ secrets.DB_PASSWORD }}"
+          certificate_domain_name = "${{ vars.CERTIFICATE_DOMAIN_NAME }}"
+          additional_domain_name  = "${{ vars.ADDITIONAL_DOMAIN_NAME }}"
+          EOF
+
       - name: Terraform Destroy
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform destroy -var-file=terraform.tfvars -auto-approve
