@@ -60,8 +60,8 @@ jobs:
         run: |
           terraform plan \
             -input=false \
-            -out=tfplan
-            -lock=false \
+            -out=tfplan \
+            -lock=true \
             -var-file=terraform.tfvars
 
       - name: Terraform Apply
@@ -71,5 +71,5 @@ jobs:
             -input=false \
             -auto-approve \
             -lock=false \
-            -var-file=terraform.tfvars
+            -var-file=terraform.tfvars \
             tfplan
