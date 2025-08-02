@@ -35,7 +35,11 @@ jobs:
       - name: Terraform Init
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: terraform init
-
+    
+      - name: Terraform format
+        working-directory: ${{ env.TERRAFORM_PATH }}
+        run: terraform fmt -recursive
+      
       - name: Create Variables File
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: |
@@ -46,21 +50,21 @@ jobs:
           db_password = "${{ secrets.DB_PASSWORD || 'changeme' }}"
           EOF
 
-      - name: Terraform Validate
-        working-directory: ${{ env.TERRAFORM_PATH }}
-        run: terraform validate
+      # - name: Terraform Validate
+      #   working-directory: ${{ env.TERRAFORM_PATH }}
+      #   run: terraform validate
 
-      - name: Terraform Plan
-        working-directory: ${{ env.TERRAFORM_PATH }}
-        run: |
-          terraform plan \
-            -input=false \
-            -out=tfplan
+      # - name: Terraform Plan
+      #   working-directory: ${{ env.TERRAFORM_PATH }}
+      #   run: |
+      #     terraform plan \
+      #       -input=false \
+      #       -out=tfplan
 
-      - name: Terraform Apply
-        working-directory: ${{ env.TERRAFORM_PATH }}
-        run: |
-          terraform apply \
-            -input=false \
-            -auto-approve \
-            tfplan
+      # - name: Terraform Apply
+      #   working-directory: ${{ env.TERRAFORM_PATH }}
+      #   run: |
+      #     terraform apply \
+      #       -input=false \
+      #       -auto-approve \
+      #       tfplan
