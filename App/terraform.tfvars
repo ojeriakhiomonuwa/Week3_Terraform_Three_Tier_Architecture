@@ -1,4 +1,4 @@
-region                  = "us-east-1"
+aws_region                  = "us-east-1"
 project_name            = "three-tier-app"
 vpc_cidr                = "192.168.0.0/16"
 pub_sub_1a_cidr         = "192.168.0.0/19"
