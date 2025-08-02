@@ -13,5 +13,5 @@ data "aws_secretsmanager_secret_version" "server_key_pub" {
 
 resource "aws_key_pair" "client_key" {
   key_name   = "server-ssh-pub-key"
-  public_key = data.aws_secretsmanager_secret_version.server_key_pub.secret_string
+  public_key = jsondecode(data.aws_secretsmanager_secret_version.server_key_pub.secret_string)[server-ssh-pub-key]
 }
