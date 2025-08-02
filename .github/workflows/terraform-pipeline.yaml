@@ -1,5 +1,4 @@
 name: Terraform Pipeline
-description: CI/CD pipeline for Terraform deployments
 
 on:
   push:
@@ -26,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3  # Updated to v3
+        uses: actions/checkout@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -41,15 +40,11 @@ jobs:
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: |
           cat > terraform.tfvars <<EOF
-          additional_domain_name = "${{ env.ADDITIONAL_DOMAIN_NAME || '' }}"
+          additional_domain_name = "${{ vars.ADDITIONAL_DOMAIN_NAME || '' }}"
+          certificate_domain_name = "${{ vars.CERTIFICATE_DOMAIN_NAME || '' }}"
+          db_username = "${{ secrets.DB_USERNAME || 'admin' }}"
+          db_password = "${{ secrets.DB_PASSWORD || 'changeme' }}"
           EOF
-          
-          # Add any other variables here
-          certificate_domain_name = "${{ env.certificate_domain_name || 'default-value' }}"
-
-          db_username = "${{ secrets.DB_USERNAME || 'default-password' }}"
-
-          db_password = "${{ secrets.DB_PASSWORD || 'default-password' }}"
 
       - name: Terraform Validate
         working-directory: ${{ env.TERRAFORM_PATH }}
