@@ -8,6 +8,6 @@ data "aws_secretsmanager_secret_version" "ssh_key" {
 }
 
 resource "aws_key_pair" "client_key" {
-  key_name   = 3-tier_server_public_key
+  key_name   = "3-tier_server_public_key"
   public_key = data.aws_secretsmanager_secret_version.ssh_key.secret_string
 }
