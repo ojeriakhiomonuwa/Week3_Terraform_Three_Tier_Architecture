@@ -59,17 +59,20 @@ jobs:
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: |
           terraform plan \
+            -var-file=terraform.tfvars \
+            -var="aws_region=${{ env.AWS_REGION }}" \
             -input=false \
             -out=tfplan \
             -lock=false \
-            -var-file=terraform.tfvars
+            
 
       - name: Terraform Apply
         working-directory: ${{ env.TERRAFORM_PATH }}
         run: |
           terraform apply \
+            -var-file=terraform.tfvars \
+            -var="aws_region=${{ env.AWS_REGION }}" \
             -input=false \
             -auto-approve \
             -lock=false \
-            -var-file=terraform.tfvars \
             tfplan
