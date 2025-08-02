@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  terraform:
+  Terraform-Infra-Deployment:
     runs-on: ubuntu-latest
     timeout-minutes: 30  # Prevent endless runs
 
