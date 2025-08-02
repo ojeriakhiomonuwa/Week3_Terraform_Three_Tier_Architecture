@@ -22,7 +22,7 @@ jobs:
       AWS_REGION: us-east-1
       TERRAFORM_VER: 1.12.0
       TERRAFORM_PATH: ./App
-      REPO_ROOT: .
+      REPO_ROOT_DIR: .
 
     steps:
       - name: Checkout Repository
@@ -47,8 +47,8 @@ jobs:
           cat > terraform.tfvars <<EOF
           additional_domain_name = "${{ vars.ADDITIONAL_DOMAIN_NAME || '' }}"
           certificate_domain_name = "${{ vars.CERTIFICATE_DOMAIN_NAME || '' }}"
-          db_username = "${{ secrets.DB_USERNAME || 'admin' }}"
-          db_password = "${{ secrets.DB_PASSWORD || 'changeme' }}"
+          db_username = "${{ secrets.DB_USERNAME || '' }}"
+          db_password = "${{ secrets.DB_PASSWORD || '' }}"
           EOF
 
       - name: Terraform Validate
