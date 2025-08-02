@@ -18,7 +18,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: us-east-1 # Change to your desired AWS region
       # Terraform version and path to your Terraform files
-      TERRAFORM_VER: 1.5.1 # Same as your Terraform config
+      TERRAFORM_VER: 1.12.0 # Same as your Terraform config
       TERRAFORM_PATH: ./App # this will be path to Terraform files
 
     steps:
