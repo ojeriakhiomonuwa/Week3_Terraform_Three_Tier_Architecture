@@ -4,7 +4,7 @@
 # }
 
 data "aws_secretsmanager_secret_version" "ssh_key" {
-  secret_id = "my-ssh-public-key"
+  secret_id = "3_tier_server_public_key"
 }
 
 resource "aws_key_pair" "client_key" {
