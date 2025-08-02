@@ -4,7 +4,7 @@
 # }
 
 data "aws_secretsmanager_secret" "server_key_pub" {
-  name = "my-ssh-public-key"
+  name = "server-ssh-pub-key"
 }
 
 data "aws_secretsmanager_secret_version" "server_key_pub" {
@@ -12,6 +12,6 @@ data "aws_secretsmanager_secret_version" "server_key_pub" {
 }
 
 resource "aws_key_pair" "client_key" {
-  key_name   = "my-ssh-public-key"
+  key_name   = "server-ssh-pub-key"
   public_key = data.aws_secretsmanager_secret_version.server_key_pub.secret_string
 }
