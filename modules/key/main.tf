@@ -3,6 +3,10 @@
 #     public_key = file("../modules/key/server_key.pub")
 # }
 
+data "aws_secretsmanager_secret" "server_key_pub" {
+  name = "my-ssh-public-key"
+}
+
 data "aws_secretsmanager_secret_version" "server_key_pub" {
   secret_id = data.aws_secretsmanager_secret.server_key_pub.id
 }
