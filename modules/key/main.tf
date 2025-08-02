@@ -3,7 +3,7 @@
 #     public_key = file("../modules/key/server_key.pub")
 # }
 
-data "aws_secretsmanager_secret_version" "ssh_key" {
+data "aws_secretsmanager_secret_version" "server_key.pub" {
   secret_id = "3_tier_server_public_key"
 }
 
