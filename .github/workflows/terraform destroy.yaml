@@ -54,4 +54,4 @@ jobs:
 
       - name: Terraform Destroy
         working-directory: ${{ env.TERRAFORM_PATH }}
-        run: terraform destroy -var-file=terraform.tfvars -auto-approve
+        run: terraform destroy -var-file=terraform.tfvars -auto-approve -lock=false
