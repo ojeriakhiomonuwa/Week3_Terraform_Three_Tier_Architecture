@@ -1,6 +1,5 @@
 
-/**/*.tfstate*
-/**/.terraform
+terraform.tfstate
 
 /modules/key/server_key
 /modules/key/server_key.pub
@@ -10,10 +9,4 @@
 *.hcl
 *.lock*
 .terraform/*
-terraform.*
-*.tfvars*
 
-# .tfstate files
-*.tfstate
-/**/*.tfstate*
-*.tfstate.*
