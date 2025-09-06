@@ -1,0 +1,18 @@
+# Pipeline to deploy 3-tier Architecture Infra using Terraform
+name: Terraform Apply Pipeline
+
+on:
+  push:
+    branches:
+      - main
+#      - 'releases/*'
+  workflow_dispatch:
+
+jobs: 
+    terraform-infra-apply:
+        runs-on: ubuntu-latest
+
+# Define AWS Credentials as secrets in your repo secret settings
+    env:
+        AWS_ACCESS_KEY_ID: 
+        AWS_SECRET_ACCESS_KEY:
